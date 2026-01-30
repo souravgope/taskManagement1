@@ -39,6 +39,15 @@ const Dashboard = () => {
   const completedTasks = tasks.filter(t => t.status === 'Completed').length;
   const pendingTasks = tasks.filter(t => t.status === 'Pending').length;
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="px-6 py-8 text-center">Loading tasks...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -47,7 +56,7 @@ const Dashboard = () => {
         <h1 className="mb-8 text-3xl font-bold text-gray-900">Dashboard</h1>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="p-6 bg-white rounded-lg shadow-sm border border-gray-200">
             <h3 className="mb-2 text-sm font-medium text-gray-500 uppercase">Total Tasks</h3>
             <p className="text-3xl font-bold text-gray-900">{totalTasks}</p>
@@ -64,6 +73,12 @@ const Dashboard = () => {
             <h3 className="mb-2 text-sm font-medium text-gray-500 uppercase">Completed Tasks</h3>
             <p className="text-3xl font-bold text-green-600">{completedTasks}</p>
             <p className="mt-2 text-sm text-gray-600">Task finished successfully</p>
+          </div>
+
+          <div className="p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+            <h3 className="mb-2 text-sm font-medium text-gray-500 uppercase">Pending Tasks</h3>
+            <p className="text-3xl font-bold text-yellow-600">{pendingTasks}</p>
+            <p className="mt-2 text-sm text-gray-600">Waiting to be started</p>
           </div>
         </div>
 

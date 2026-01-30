@@ -35,24 +35,13 @@ const AllTasksPage = () => {
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
   const [users, setUsers] = useState<User[]>([]);
 
-  const [statusFilter, setStatusFilter] = useState<"All" | TaskStatus>("All");
+  const [statusFilter] = useState<"All" | TaskStatus>("All");
   const [searchQuery, setSearchQuery] = useState("");
 
   const [loading, setLoading] = useState(true);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [, setShowCreateModal] = useState(false);
 
-  const [createForm, setCreateForm] = useState<{
-    title: string;
-    description: string;
-    assignedTo: string;
-    status: TaskStatus;
-  }>({
-    title: "",
-    description: "",
-    assignedTo: "",
-    status: "Pending",
-  });
+  // Task creation form state removed (not used on this page).
 
   /* ================= EFFECTS ================= */
 
@@ -129,12 +118,6 @@ const AllTasksPage = () => {
     }
   };
 
-  const canUpdateTask = (task: Task) => {
-    if (!user) return false;
-    if (user.role === "Admin") return true;
-    return task.assignedTo === user.id;
-  };
-
   /* ================= LOGIC ================= */
 
   const filterTasks = () => {
@@ -164,34 +147,7 @@ const AllTasksPage = () => {
     setFilteredTasks(filtered);
   };
 
-  const updateTaskStatus = async (taskId: string, newStatus: TaskStatus) => {
-    try {
-      await api.put(`/tasks/${taskId}`, { status: newStatus });
-      await fetchTasks();
-      if (selectedTask && selectedTask.id === taskId) {
-        setSelectedTask({ ...selectedTask, status: newStatus });
-      }
-    } catch {
-      alert("Failed to update status");
-    }
-  };
-
-  const handleCreateTask = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await api.post("/tasks", createForm);
-      setShowCreateModal(false);
-      setCreateForm({
-        title: "",
-        description: "",
-        assignedTo: "",
-        status: "Pending",
-      });
-      fetchTasks();
-    } catch (error: any) {
-      alert(error.response?.data?.message || "Error creating task");
-    }
-  };
+  // Note: Task update/create helpers were removed because they are not used on this page.
 
   /* ================= UI ================= */
 
