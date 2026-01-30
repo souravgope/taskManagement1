@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Ensure this matches your backend port
-const API_URL = 'https://taskmanagement1-firebase.onrender.com/';
+const API_URL = 'https://taskmanagement1-firebase.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_URL,
