@@ -10,12 +10,20 @@ const app = express();
 /* ================= MIDDLEWARE ================= */
 
 // Allow frontend + local dev
+const allowedOrigins = [
+  "https://taskmanagement1-099v.onrender.com", // Render frontend (numeric slug)
+  "https://taskmanagement1-o99v.onrender.com", // Render frontend (letter slug)
+  "http://localhost:5173", // Local dev
+];
+
 app.use(
   cors({
-    origin: [
-      "https://taskmanagement1-099v.onrender.com", // Render frontend
-      "http://localhost:5173",                    // Local dev
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
